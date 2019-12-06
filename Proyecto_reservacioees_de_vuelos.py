@@ -12,13 +12,18 @@
 # correspondiente. Es posible que se requiera añadir nuevos
 # métodos y propiedades a las clases definidas a continuación.
 
+"""
+Criterios de evaluación
+(70%) El código pasa todas las pruebas.
+(20%) El diseño y la implementación de la solución incluye y utiliza al menos dos clases adicionales a la clase ReservadorDeVuelos.
+(10%) El código se apega a las convenciones de codificación del lenguaje Python: 1) nombres de variables/clases/métodos descriptivos; 2) indentación de cuatro espacios por nivel; 3) líneas de texto de menos de 80 caracteres; y 4) métodos y clases incluyen cadena de documentación. Ver: bit.ly/2OKCBSJ
+"""
+
 from datetime import date
 
-# tech debt :
-# Vuelo constructor
-# Validador ??
+# tech debt:
 # Vuelo.flight_data
-# Vuelo.asientos ocupados !!es lista
+# Validador ??
 
 class ReservadorDeVuelos:
 
@@ -39,19 +44,18 @@ class ReservadorDeVuelos:
 		# "Vuelo: codigo , origen-destino , fecha(año,mes dia)"
 		if codigo in self.__vuelos.keys():
 		    data = self.__vuelos[codigo].flight_data()
-			head = f"Vuelo: {data.codigo} {data.origen}-{data.destino} {data.fecha}\n"
-			#data.{asientos_ocupados [],num_letras (genera letras),num_filas(genera nums)}
+			head = f"Vuelo: {codigo} {data["origen"]}-{data["destino"]} {data["fecha"]}\n"
 			body = "  "
 
 			letras = ("A","B","C","D","E","F","G","H","J")
-			for z in range(data.num_letras):
+			for z in range(data["num_letras"]):
                 body += letras[z]
 
-			for i in range(data.num_letras):
+			for i in range(data["num_letras"]):
 				body += f"\n{i}"
-				for j in range(data.num_filas):
+				for j in range(data["num_filas"]):
 					#assientos ocupados SET
-					if (i,j) in asientos_ocupados:
+					if (i,j) in data["asientos_ocupados"]:
 						body += 'x'
 					else:
                         body += '.'
@@ -78,9 +82,14 @@ class ReservadorDeVuelos:
 		return vuelos_encontrados
 
 
+class CodigoHolder:
+	codes = []
+	def exists(codigo):
+		codigo in codes
+
+
 
 class Vuelo:
-
 	#REMINDER runtime error invalid arguments
     def __init__(self,
                  codigo,
@@ -89,32 +98,36 @@ class Vuelo:
                  fecha,
                  num_filas,
                  num_letras):
+		# validar madres
+		# if not valido: raise RunTimeError("chingo a su madre")
         self.__codigo = codigo
         self.__origen = origen
         self.__destino = destino
         self.__fecha = fecha
         self.__num_filas = num_filas
         self.__num_letras = num_letras
+		# asientos ocupados
+		self.__asientos_ocupados = []
 
-        # Crear las filas de asientos desocupados.
-        # A partir de este momento, si queremos
-        # acceder al asiento 1A de este vuelo se
-        # puede hacer de la siguiente manera:
-        #
-        #     self.__asientos[1]['A']
-        #
-        self.__asientos = {}
-        for num_fila in range(1, num_filas + 1):
-            fila = {}
-            for letra in 'ABCDEFGHIJ'[:num_letras]:
-                fila[letra] = Asiento()
-            self.__asientos[num_fila] = fila
-
-
-class Asiento:
-
-    def __init__(self):
-        self.__ocupado = False
+	def flight_data(self):
+		return {
+			"origen": self.__origen,
+			"destino": self.__destino,
+			"fecha": self.__fecha,
+			"num_letras": self.__num_letras,
+			"num_filas": self.__num_filas,
+			"asientos_ocupados": self.__asientos_ocupados
+		}
+"""
+Traceback (most recent call last):
+  File "/home/runner/_test_runner.py", line 2, in <module>
+    import unit_tests
+  File "/home/runner/unit_tests.py", line 47
+    if codigo in self.__vuelos.keys():
+                                     ^
+TabError: inconsistent use of tabs and spaces in indentation
+exit status 1
+"""
 
 """
 Vuelo IB323 OAX-MEX 2019-12-07
