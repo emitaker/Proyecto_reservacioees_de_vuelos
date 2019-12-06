@@ -1,5 +1,4 @@
 # Proyecto_reservaciones_de_vuelos
-Codigo utilizado para poder resolver la problematica de pensamiento computacional orientado a objetos
 
 De manera individual, diseña y codifica en Python un sistema orientado a objetos que permita realizar reservaciones de vuelos aéreos.
 
