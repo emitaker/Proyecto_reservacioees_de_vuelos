@@ -14,16 +14,16 @@
 
 from datetime import date
 
+# tech debt :
+# Vuelo constructor
+# Validador ??
+# Vuelo.flight_data
+# Vuelo.asientos ocupados !!es lista
 
 class ReservadorDeVuelos:
-    """Instancia de esta clase representa el sistema de
-    apartados de vuelos de un aeropuerto
-    """
 
     def __init__(self):
-      """Inicializa una Instancia de la clase ReservadorDeVuelos
-      """
-      self.__vuelos = {}
+        self.__vuelos = {}
 
     def define_vuelo(self,
                      codigo,
@@ -32,31 +32,56 @@ class ReservadorDeVuelos:
                      fecha,
                      num_filas,
                      num_letras):
-        """Devuelve todos los datos necesarios para un Vuelo
-        en forma de diccionario, para que sea más ordenado
-        y para que el sistema tenga un punto de referencia entre
-        cada uno. En este caso, el punto de referencia es el
-        codigo, que es una serie de letras y números.
-        """
         self.__vuelos[codigo] = Vuelo(codigo, origen, destino,
                                       fecha, num_filas, num_letras)
 
     def imprime_info_vuelo(self, codigo):
-        return f"""Vuelo {codigo. } {self.origen}-{self.destino} {self.fecha}"""
+		# "Vuelo: codigo , origen-destino , fecha(año,mes dia)"
+		if codigo in self.__vuelos.keys():
+		    data = self.__vuelos[codigo].flight_data()
+			head = f"Vuelo: {data.codigo} {data.origen}-{data.destino} {data.fecha}\n"
+			#data.{asientos_ocupados [],num_letras (genera letras),num_filas(genera nums)}
+			body = "  "
+
+			letras = ("A","B","C","D","E","F","G","H","J")
+			for z in range(data.num_letras):
+                body += letras[z]
+
+			for i in range(data.num_letras):
+				body += f"\n{i}"
+				for j in range(data.num_filas):
+					#assientos ocupados SET
+					if (i,j) in asientos_ocupados:
+						body += 'x'
+					else:
+                        body += '.'
+			print(head, body)
+
+		else:
+			print("Código de vuelo inexistente")
 
     def reserva_vuelo(self, codigo, fila, letra):
-        reservation[codigo]=Vuelo(fila, letra)
-        if reservation in self.vuelos:
-          False
-        else:
-          True
+		response = False
+        if codigo in self.__vuelos[codigo].keys():
+			vuelo = self.__vuelos[codigo]
+			#validar letra y fila
+			if not (letra,fila) in vuelo.asientos_ocupados:
+				vuelos.asientos_ocupados.append((letra,fila))
+				response = True
+		return response
 
     def busca_vuelos(self, origen, destino):
-        pass
+        vuelos_encontrados = []
+		for vuelo in self.__vuelos:
+			if vuelo.origen == origen and vuelo.destino == destino:
+				vuelos_encontrados.append(vuelo.codigo)
+		return vuelos_encontrados
+
 
 
 class Vuelo:
 
+	#REMINDER runtime error invalid arguments
     def __init__(self,
                  codigo,
                  origen,
@@ -90,3 +115,20 @@ class Asiento:
 
     def __init__(self):
         self.__ocupado = False
+
+"""
+Vuelo IB323 OAX-MEX 2019-12-07
+  ABCD
+01....
+02.X..
+03...X
+04....
+05....
+06....
+07....
+08....
+09....
+10....
+11....
+12....
+"""
