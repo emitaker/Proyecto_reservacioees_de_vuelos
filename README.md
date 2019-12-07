@@ -16,12 +16,23 @@ busca_vuelos(self, origen, destino): Devuelve una lista con todos los códigos d
 
 Sobre los argumentos de los métodos
 
+
+
+
+
+
 Los métodos descritos arriba reciben uno o varios argumentos cuyas restricciones se listan a continuación:
 
 codigo de vuelo debe ser una cadena con exactamente cinco caracteres. Los primeros dos caracteres deben ser letras mayúsculas. Los últimos tres caracteres deben ser dígitos. Cada vuelo debe tener un codigo único el cual no puede ser utilizado por ningún otro vuelo.
+
 origen y destino deben ser cadenas con exactamente tres letras mayúsculas. Representan códigos de aeropuertos. Un vuelo no puede tener el mismo origen y destino.
+
 fecha es una instancia de la clase date del módulo datetime. Representa el año, mes y día en el que sale el vuelo correspondiente.
+
 num_filas debe ser un número entero entre 1 y 99.
+
 num_letras debe ser un número entero entre 1 y 10.
+
 fila debe ser un número entero entre 1 y 99.
+
 letra debe ser una cadena con un solo carácter de una letra mayúscula de la 'A' a la 'J'.
